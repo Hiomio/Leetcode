@@ -1,0 +1,19 @@
+class Solution {
+public:
+    int computeArea(int ax1, int ay1, int ax2, int ay2, int bx1, int by1, int bx2, int by2) {
+        int a1,b1,c1=0;
+        a1=(ay2-ay1)*(ax2-ax1);
+         b1=(by2-by1)*(bx2-bx1);
+        int overlapheighttop=min(ay2,by2);
+        int overlapheightbuttom=max(ay1,by1);
+        int overlapleft=max(ax1,bx1);
+        int overlapright=min(ax2,bx2);
+        int overlapwidth=overlapright-overlapleft;
+        int overlapheight=overlapheighttop-overlapheightbuttom;
+        if(overlapwidth>0 && overlapheight>0)
+        {
+         c1=overlapwidth*overlapheight;
+        }
+         return a1+b1-c1;
+    }
+};
