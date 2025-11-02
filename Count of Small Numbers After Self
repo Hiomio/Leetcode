@@ -1,0 +1,84 @@
+class Solution {
+    public List<Integer> countSmaller(int[] arr) {
+List<Integer> rs1= new ArrayList<>();
+if(arr.length==0){
+    return rs1;
+}
+         int[] res = new int[arr.length];
+        Pairs[] pairMerge = new Pairs[arr.length];
+        for (int i = 0; i < pairMerge.length; i++) {
+            pairMerge[i] = new Pairs(arr[i], i);
+        }
+        MegeSort(pairMerge, 0, pairMerge.length - 1, res);
+        
+        for(int i=0;i<res.length;i++){
+            rs1.add(res[i]);
+        }
+        
+        return rs1;
+    }
+
+    public static class Pairs {
+
+        int Value;
+        int Index;
+
+        public Pairs(int v1, int i1) {
+            this.Value = v1;
+            this.Index = i1;
+        }
+
+        public int getIndex() {
+            return Index;
+        }
+
+        public int getValue() {
+            return Value;
+        }
+
+    }
+     public static void MegeSort(Pairs[] pairs, int s, int e, int[] res) {
+        if (s == e) {
+            return;
+        }
+        int mid = s+(e-s)/2;
+        MegeSort(pairs, s, mid, res);
+        MegeSort(pairs, mid + 1, e, res);
+        Merge(pairs, s, mid, e, res);
+    }
+
+     public static void Merge(Pairs[] pairs, int s, int mid, int e, int[] res) {
+        Pairs[] temp = new Pairs[e - s + 1];
+        int i = s;
+        int j = mid + 1;
+        int counter = 0;
+        while (i <= mid && j <= e) {
+            if (pairs[i].Value > pairs[j].Value) {
+                temp[counter] = pairs[i];
+                res[pairs[i].getIndex()] += e - j+1 ;
+                i++;
+                counter++;
+            } else {
+                temp[counter] = pairs[j];
+                j++;
+                counter++;
+            }
+
+        }
+        while (i <= mid) {
+            temp[counter] = pairs[i];
+            counter++;
+            i++;
+        }
+        while (j <= e) {
+            temp[counter] = pairs[j];
+            counter++;
+            j++;
+        }
+        counter = 0;
+        for (int k = s; k <= e; k++) {
+            pairs[k] = temp[counter];
+            counter++;
+        }
+    }
+}
