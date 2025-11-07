@@ -1,0 +1,16 @@
+with one as(
+    select player_id, min(event_date) as first_login
+    from activity
+    group by player_id
+),
+two as (
+    select a.player_id
+    from one a
+    join activity b
+    on a.player_id=b.player_id
+    and datediff(b.event_date,a.first_login)=1 
+)
+select round(count(distinct d.player_id)/count(distinct c.player_id),2) as fraction
+from one c
+left join two d
+on c.player_id=d.player_id;
