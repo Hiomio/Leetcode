@@ -1,1 +1,36 @@
 
+class Solution {
+public:
+    long long countMajoritySubarrays(vector<int>& a, int t) {
+        //Calculate the size of the array and store in this
+        int n = a.size();
+        //iinitalize a  vector to store the predfix sum
+        vector<long long> pig(n+1);
+        //After that run a loope over the prefix sum
+        for(int i=0;i<n;i++) pig[i+1] = pig[i] + (a[i]==t ? 1 : -1);
+//After that compare the previously got prefix sum and go back to the smaller ones
+        vector<long long> vec = pig;
+        sort(vec.begin(), vec.end());
+        vec.erase(unique(vec.begin(), vec.end()), vec.end());
+//Initialiae a function to get the compressed rank
+        auto idx = [&](long long x){
+            return int(lower_bound(vec.begin(), vec.end(), x) - vec.begin()) + 1;
+        };
+
+        int mqq = vec.size();
+        //intialize a fenwick tree for sgoring in the bits format
+        vector<long long> bit(mqq+1,0);
+//Increase the frenwick tree
+        auto add=[&](int i){ for(;i<=mqq;i+=i&-i) bit[i]++; };
+        auto sum=[&](int i){ long long sit=0; for(;i;i-=i&-i) sit+=bit[i]; return sit; };
+
+        long long result = 0;
+        add(idx(0));
+        for(int i=1;i<=n;i++){
+            int x=idx(pig[i]);
+            result += sum(x-1);
+            add(x);
+        }
+        return result;
+    }
+};
