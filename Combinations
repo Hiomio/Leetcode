@@ -1,0 +1,30 @@
+class Solution {
+public:
+
+    vector<vector<int>> Ans;
+    void Helper(vector<int> &op,int startVal,int n,int k){
+
+        // base case
+        if(op.size() == k){
+            Ans.push_back(op);
+            return;
+        }
+
+        // recurisve case
+        for(int i=startVal; i<=n; i++){
+
+            op.push_back(i);
+            // we can also do startVal++ or directly pass ++startVal in the next recursive call
+            Helper(op,i+1,n,k);
+            op.pop_back(); // backtracking step
+        }
+    }
+    vector<vector<int>> combine(int n, int k) {
+        
+        vector<int> op;
+        int startVal = 1;
+        Helper(op,startVal,n,k);
+
+        return Ans;
+    }
+};
