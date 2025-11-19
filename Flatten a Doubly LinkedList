@@ -1,0 +1,20 @@
+class Solution {
+public:
+    Node* flatten(Node* head) {
+        vector<Node*> st;
+        for(Node* p = head; p; p = p->next){
+            if(p->child){
+                if(p->next) st.push_back(p->next);
+                p->next = p->child;
+                p->child->prev = p;
+                p->child = nullptr;
+            }
+            if(!p->next && !st.empty()){
+                p->next = st.back();
+                st.back()->prev = p;
+                st.pop_back();
+            }
+        }
+        return head;
+    }
+};
