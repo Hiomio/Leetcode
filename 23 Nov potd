@@ -1,0 +1,30 @@
+class Solution {
+public:
+    int maxSumDivThree(vector<int>& nums) {
+        // dp[r] = maximum sum with remainder r
+        int dp[3] = {0, INT_MIN, INT_MIN};
+
+        for (int x : nums) {
+            int r = x % 3;
+            int a = dp[0], b = dp[1], c = dp[2];
+
+            if (r == 0) {
+                dp[0] = a + x;
+                dp[1] = (b == INT_MIN ? INT_MIN : b + x);
+                dp[2] = (c == INT_MIN ? INT_MIN : c + x);
+            } 
+            else if (r == 1) {
+                dp[0] = max(a, c == INT_MIN ? INT_MIN : c + x);
+                dp[1] = max(b, a + x);
+                dp[2] = max(c, b == INT_MIN ? INT_MIN : b + x);
+            } 
+            else { // r == 2
+                dp[0] = max(a, b == INT_MIN ? INT_MIN : b + x);
+                dp[1] = max(b, c == INT_MIN ? INT_MIN : c + x);
+                dp[2] = max(c, a + x);
+            }
+        }
+
+        return dp[0];
+    }
+};
