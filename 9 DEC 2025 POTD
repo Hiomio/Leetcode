@@ -1,0 +1,16 @@
+class Solution {
+public:
+    int specialTriplets(vector<int>& nums) {
+        const int mod = 1e9 + 7;
+        unordered_map<int, int> suf;
+        unordered_map<int, int> pre;
+        for(auto x : nums) suf[x] += 1;
+        long long ans = 0;
+        for(auto x : nums){
+            suf[x] -= 1;
+            ans += (long long)pre[2 * x] * suf[2 * x];
+            pre[x] += 1;
+        }
+        return ans % mod;
+    }
+};
