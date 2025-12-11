@@ -1,0 +1,34 @@
+class Solution {
+public:
+    int countCoveredBuildings(int n, vector<vector<int>>& buildings) {
+        unordered_map<int, set<int>> mp_x;
+        unordered_map<int, set<int>> mp_y;
+
+        for (auto i : buildings) {
+            mp_x[i[0]].insert(i[1]);
+            mp_y[i[1]].insert(i[0]);
+        }
+
+        int count =0;
+
+        for (auto i : buildings) {
+
+            int x = i[0];
+            int y = i[1];
+
+            if(*mp_x[x].begin()==y || *mp_y[y].begin()==x){
+                continue;
+            }
+
+            if(*mp_x[x].rbegin()==y || *mp_y[y].rbegin()==x){
+                continue;
+            }
+
+            count++;
+
+        }
+
+        return count;
+    }
+
+};
